@@ -1,209 +1,264 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>/who's vito?/</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>/who’s vito?/</title>
 
 <style>
-body{
-  background:#f6efe8;
+body {
+  background:#f2e2d4;
   color:#000;
   font-family: Arial, Helvetica, sans-serif;
+  font-size:12px;
   margin:0;
-  padding:12px;
 }
-h1,h2,h3{margin:6px 0}
-.board{
-  max-width:900px;
-  margin:auto;
+a { color:#800000; text-decoration:none; }
+a:hover { text-decoration:underline; }
+
+.top-bar {
+  background:#ffe;
+  border-bottom:2px solid #d6b7a7;
+  text-align:center;
+  padding:4px;
+  font-size:11px;
 }
-.comment{
-  border:2px solid #aaa;
+.top-bar span { margin:0 6px; cursor:pointer; }
+
+.wrap { max-width:860px; margin:auto; padding:8px; }
+
+.board-header {
+  text-align:center;
+  margin:20px 0;
+}
+.board-header h1 {
+  font-family:"Times New Roman", serif;
+  font-size:26px;
+  color:#800000;
+  margin:0;
+}
+
+.op {
   background:#fff;
+  border:2px solid #d6b7a7;
+  padding:6px;
+}
+.post-head {
+  font-size:11px;
+  margin-bottom:4px;
+}
+.name { color:#117743; font-weight:bold; }
+
+.image-row {
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin:12px 0;
+}
+.image-row img {
+  width:150px;
+  border:1px solid #aaa;
+}
+
+#comments { margin-top:12px; }
+.comment {
+  border:2px solid #aaa;
+  background:#f6efe8;
   padding:6px;
   margin:6px 0;
   font-size:14px;
 }
-.reply{
-  margin-left:24px;
-  border-left:3px solid #ccc;
+.reply {
+  margin-left:20px;
 }
-.meta{
-  font-size:12px;
-  color:#555;
+
+textarea {
+  width:100%;
+  height:80px;
+  font-size:14px;
 }
-button{
+input {
+  font-size:14px;
+  margin-bottom:4px;
+}
+
+button {
   font-size:12px;
-  margin-right:6px;
+  padding:4px 8px;
+  margin-left:6px;
   cursor:pointer;
 }
-textarea,input{
-  width:100%;
-  font-size:14px;
-  margin:4px 0;
-}
-.reply-box{
-  margin-top:6px;
+
+.footer {
+  text-align:center;
+  font-size:10px;
+  color:#555;
+  margin:40px 0 20px;
 }
 </style>
 </head>
 
 <body>
-<div class="board">
 
-<h1>/who’s vito?/</h1>
+<div class="top-bar">
+  <span>[ home ]</span>
+  <span>[ about ]</span>
+  <span onclick="location.href='so-well.html'">[ Log in/Sign up ]</span>
+  <span onclick="location.href='rick-roll.html'">[ What else? ]</span>
+</div>
 
-<p><b>Heya!! I’m Don V!</b> More formally, Don Vito. Call me Don, Vito, or V — vibes only.</p>
+<div class="wrap">
 
-<hr>
+<div class="board-header">
+  <h1>/who’s vito?/</h1>
+  <p>my own personal board</p>
+</div>
 
-<h2>Leave a comment</h2>
-<input id="nameInput" placeholder="Your name (optional)">
-<textarea id="commentInput" placeholder="Say something…"></textarea>
+<div class="op">
+  <div class="post-head">
+    <span class="name">Don V.</span> — Teen
+  </div>
+
+Heya!! I’m Don V! More formally, Don Vito, You can call me Don, Vito or V, whatever you’d like!  
+Someone that has a ridiculous amount of humor - Plato  
+
+Subjects I love so much are Philosophy, Theology, Psychology, History, Social Studies and Politics.  
+When I say everything, I mean EVERYTHING.  
+
+Sports I do: Football and Badminton.  
+I don’t like Basketball that much… don’t ask why.  
+
+Fun fact: I’m a universal donor. Blood type O-.  
+
+Ask me anything (keep it fun).
+
+<div class="image-row">
+  <img src="me1.jpg">
+  <img src="me2.jpg">
+  <img src="me3.jpg">
+</div>
+
+Thats it, get out.  
+(I’m joking, feel free to check out more in the website.)
+</div>
+
+<h3>Comment Section</h3>
+<input id="name" placeholder="Your name"><br>
+<textarea id="text" placeholder="Write a comment..."></textarea><br>
 <button onclick="postComment()">Post</button>
 
-<hr>
-
-<h2>Comments</h2>
 <div id="comments"></div>
 
+<div class="footer">
+  static board · just me · enjoy
+</div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import {
-  getFirestore, collection, addDoc, query,
-  orderBy, onSnapshot, serverTimestamp,
-  deleteDoc, doc
+  getFirestore, collection, addDoc, onSnapshot,
+  serverTimestamp, deleteDoc, doc, query, orderBy
 } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-/* 🔥 Firebase config */
 const firebaseConfig = {
   apiKey: "AIzaSyBUxo-7rLsYMjjOSQDYczqwcrh_pyX7D1o",
   authDomain: "vito-board.firebaseapp.com",
-  projectId: "vito-board",
-  storageBucket: "vito-board.firebasestorage.app",
-  messagingSenderId: "15417026348",
-  appId: "1:15417026348:web:0b5f8ed7b101af0c842e89"
+  projectId: "vito-board"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-/* 👤 visitor ID (for delete permissions) */
+/* visitor id (delete protection) */
 let uid = localStorage.getItem("uid");
 if(!uid){
   uid = crypto.randomUUID();
   localStorage.setItem("uid", uid);
 }
 
-/* 📤 post main comment */
-window.postComment = async () => {
-  const text = commentInput.value.trim();
-  if(!text) return;
+/* restore saved username */
+const savedName = localStorage.getItem("username");
+if(savedName) name.value = savedName;
 
-  const name = nameInput.value.trim();
-
-  await addDoc(collection(db,"comments"),{
-    text,
-    name,
-    uid,
-    parent: null,
-    time: serverTimestamp()
-  });
-
-  commentInput.value="";
-};
-
-/* 📥 render comments */
-const q = query(collection(db,"comments"), orderBy("time","asc"));
-onSnapshot(q, snap=>{
-  const list=[];
-  snap.forEach(d=>list.push({id:d.id,...d.data()}));
-  render(list);
-});
-
-function render(list){
-  comments.innerHTML="";
-  list.filter(c=>!c.parent).forEach(c=>{
-    comments.appendChild(buildComment(c,list));
-  });
+/* helper: resolve username */
+function getUserName(){
+  const typed = name.value.trim();
+  if(typed){
+    localStorage.setItem("username", typed);
+    return typed;
+  }
+  return localStorage.getItem("username") || "Anonymous";
 }
 
-function buildComment(c,list){
-  const div=document.createElement("div");
-  div.className="comment";
+/* realtime comments */
+const q = query(collection(db,"comments"), orderBy("time","asc"));
+onSnapshot(q, snap => {
+  comments.innerHTML = "";
+  const all = [];
+  snap.forEach(d => all.push({id:d.id, ...d.data()}));
+  all.filter(c=>!c.parent).forEach(c => render(c, all, 0));
+});
 
-  const name = c.name || "Anonymous";
+function render(c, all, level){
+  const div = document.createElement("div");
+  div.className = "comment";
+  if(level) div.classList.add("reply");
 
-  div.innerHTML=`
-    <div class="meta"><b>${name}</b></div>
-    <div>${c.text}</div>
-  `;
+  div.innerHTML = `<b>${c.name || "Anonymous"}</b>: ${c.text}`;
 
-  /* delete button (owner only) */
-  if(c.uid===uid){
-    const del=document.createElement("button");
-    del.textContent="Delete";
-    del.onclick=()=>deleteDoc(doc(db,"comments",c.id));
+  if(c.uid === uid){
+    const del = document.createElement("button");
+    del.textContent = "Delete";
+    del.onclick = ()=>deleteDoc(doc(db,"comments",c.id));
     div.appendChild(del);
   }
 
-  /* reply button */
-  const replyBtn=document.createElement("button");
-  replyBtn.textContent="Reply";
-  div.appendChild(replyBtn);
+  const reply = document.createElement("button");
+  reply.textContent = "Reply";
+  reply.onclick = ()=>{
+    const box = document.createElement("textarea");
+    box.style.height="40px";
 
-  const box=document.createElement("div");
-  box.className="reply-box";
-  box.style.display="none";
-  box.innerHTML=`
-    <textarea placeholder="Reply…"></textarea>
-    <button>Send</button>
-  `;
-  div.appendChild(box);
+    const send = document.createElement("button");
+    send.textContent="Send";
 
-  replyBtn.onclick=()=>box.style.display =
-    box.style.display==="none"?"block":"none";
+    send.onclick = async ()=>{
+      if(!box.value.trim()) return;
 
-  box.querySelector("button").onclick=async()=>{
-    const txt=box.querySelector("textarea").value.trim();
-    if(!txt) return;
+      await addDoc(collection(db,"comments"),{
+        name: getUserName(),
+        text: box.value,
+        uid,
+        parent: c.id,
+        time: serverTimestamp()
+      });
 
-    const nameInputVal = nameInput.value.trim();
+      box.remove();
+      send.remove();
+    };
 
-    await addDoc(collection(db,"comments"),{
-      text:txt,
-      name: nameInputVal || c.name || "Anonymous",
-      uid,
-      parent:c.id,
-      time:serverTimestamp()
-    });
-
-    box.querySelector("textarea").value="";
-    box.style.display="none";
+    div.appendChild(box);
+    div.appendChild(send);
   };
 
-  /* replies */
-  list.filter(r=>r.parent===c.id).forEach(r=>{
-    const rd=document.createElement("div");
-    rd.className="comment reply";
-    rd.innerHTML=`
-      <div class="meta"><b>${r.name||"Anonymous"}</b></div>
-      <div>${r.text}</div>
-    `;
-    if(r.uid===uid){
-      const d=document.createElement("button");
-      d.textContent="Delete";
-      d.onclick=()=>deleteDoc(doc(db,"comments",r.id));
-      rd.appendChild(d);
-    }
-    div.appendChild(rd);
+  div.appendChild(reply);
+  comments.appendChild(div);
+
+  all.filter(r=>r.parent===c.id).forEach(r=>render(r,all,level+1));
+}
+
+window.postComment = async ()=>{
+  if(!text.value.trim()) return;
+
+  await addDoc(collection(db,"comments"),{
+    name: getUserName(),
+    text: text.value,
+    uid,
+    time: serverTimestamp()
   });
 
-  return div;
-}
+  text.value="";
+};
 </script>
 
 </body>
