@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>/who’s vito?/</title>
+<style>
+/* ==========================
+   RETRO BOARD BASE
+   ========================== */
+body {
+  background: #f2e2d4;
+  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  line-height: 1.25;
+  margin: 0;
+  padding: 0;
+}
+a { color: #800000; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* faint scanline */
+body::after {
+  content: "";
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.02),
+    rgba(0,0,0,0.02) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+}
+
+/* ==========================
+   TOP BAR
+   ========================== */
+.top-bar {
+  background: #ffe;
+  border-bottom: 2px solid #d6b7a7;
+  text-align: center;
+  padding: 4px 0;
+  font-size: 11px;
+}
+.top-bar span { margin: 0 6px; cursor: pointer; }
+
+/* ==========================
+   WRAPPER
+   ========================== */
+.wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 8px;
+}
+
+/* ==========================
+   BOARD HEADER
+   ========================== */
+.board-header {
+  text-align: center;
+  margin: 18px 0 22px;
+}
+.board-header h1 {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 26px;
+  color: #800000;
+  margin: 0;
+}
+.board-header p {
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+/* ==========================
+   POST FORM (LOCKED)
+   ========================== */
+.post-form {
+  background: #eeaa88;
+  border: 2px solid #d6b7a7;
+  margin-bottom: 18px;
+  padding: 5px;
+}
+.post-form table { width: 100%; font-size: 11px; }
+.post-form th {
+  background: #ea8;
+  padding: 3px;
+  width: 80px;
+  text-align: left;
+}
+.post-form td { background: #fff; padding: 3px; }
+.post-form input, .post-form textarea {
+  width: 97%;
+  font-size: 11px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ==========================
+   THREADS
+   ========================== */
+.thread { margin-bottom: 26px; }
+.op {
+  background: #fff;
+  border: 2px solid #d6b7a7;
+  padding: 6px;
+  overflow: hidden;
+}
+.reply {
+  background: #f6efe8;
+  border: 2px solid #d6b7a7;
+  padding: 6px;
+  margin: 6px 0 0 18px;
+}
+.post-head { font-size: 11px; margin-bottom: 4px; }
+.name { color: #117743; font-weight: bold; }
+.no { color: #0000ee; }
+.body { font-size: 12px; white-space: pre-wrap; }
+
+/* ==========================
+   WIKI-STYLE IMAGES
+   ========================== */
+.wiki-img {
+  width: 150px;
+  height: auto;
+  border: 1px solid #aaa;
+  margin: 4px;
+  float: left; /* can alternate left/right */
+}
+
+/* ==========================
+   FOOTER
+   ========================== */
+.footer {
+  text-align: center;
+  font-size: 10px;
+  color: #555;
+  margin: 40px 0 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <span>[ home ]</span>
+  <span>[ about ]</span>
+  <span onclick="location.href='so-well.html'">[ Log in/Sign up ]</span>
+  <span onclick="location.href='rick-roll.html'">[ What else? ]</span>
+</div>
+
+<div class="wrap">
+
+  <div class="board-header">
+    <h1>/who’s vito?/</h1>
+    <p>my own personal board</p>
+  </div>
+
+  <div class="post-form">
+    <table>
+      <tr>
+        <th>Name</th>
+        <td><input type="text" placeholder="Anonymous" disabled></td>
+      </tr>
+      <tr>
+        <th>Comment</th>
+        <td><textarea placeholder="posting is disabled" disabled></textarea></td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align:center; background:#fff;">
+          <input type="button" value="Post" disabled>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ==========================
+       OP POST
+       ========================== -->
+  <div class="thread">
+    <div class="op">
+      <div class="post-head">
+        <span class="name">Don V.</span> Teen <span>—</span> <span class="no">No.0000001</span>
+      </div>
+      <div class="body">
+Heya!! I’m Don V! More formally, Don Vito, You can call me Don, Vito or V, whatever you’d like!  
+Someone that has a ridiculous amount of humor - Plato  
+
+Subjects I love so much (like so so much) are Philosophy, Theology, Psychology, History, Social Studies and Politics! Wait wait.. was that too exaggerated? Well let’s say I love everything, and when I say everything, EVERYTHING.  
+
+Hobbies I mostly do are sports or just slack off at home, I’m joking! Sports I do: Football and Badminton. For a guy like me, I don’t like Basketball that much, why? Well.. I dunno.  
+
+A random fun fact about me is that I’m a universal donor! I have blood type O-!  
+
+I can describe myself as very humorous! Somewhat jolly, and always at your side. If I make you upset in any way, the next thing you’ll know maybe I’m begging for forgiveness. Do I sound like a narcissist? Sorry.  
+
+You can ask me ALL the questions you want! But of course, let’s keep it fun and no bad stuff allowed. A sample question can be: “What topics do you like other than the topics you’ve given?”  
+
+<!-- Images of Vito -->
+<img src="images/me1.jpg" class="wiki-img" alt="Me 1">
+<img src="images/me2.jpg" class="wiki-img" alt="Me 2">
+<img src="images/me3.jpg" class="wiki-img" alt="Me 3">
+<img src="images/me4.jpg" class="wiki-img" alt="Me 4">
+<img src="images/me5.jpg" class="wiki-img" alt="Me 5">
+
+<div style="clear:both;"></div>
+
+Thats it, get out.  
+(I’m joking, feel free to check out more in the website.)
+      </div>
+    </div>
+
+    <!-- ==========================
+         BLANK REPLIES
+         ========================== -->
+    <div class="reply">
+      <div class="post-head">
+        <span class="name">Anonymous</span> <span class="no">No.0000002</span>
+      </div>
+      <div class="body">
+<!-- Visitors can fill this -->
+      </div>
+    </div>
+
+    <div class="reply">
+      <div class="post-head">
+        <span class="name">Anonymous</span> <span class="no">No.0000003</span>
+      </div>
+      <div class="body">
+<!-- Visitors can fill this -->
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    static personal board · just me · no backend · enjoy the chaos
+  </div>
+
+</div>
+
+<!-- ==========================
+     EASTER EGGS COMMENTS
+     ========================== -->
+<!-- [Log in/Sign up] → so-well.html -->
+<!-- [What else?] → rick-roll.html -->
+
+</body>
+</html>
