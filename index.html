@@ -57,23 +57,26 @@ body::after {
   padding: 6px;
   overflow: hidden;
 }
-.reply {
-  background: #f6efe8;
-  border: 2px solid #d6b7a7;
-  padding: 6px;
-  margin: 6px 0 0 18px;
-}
 .post-head { font-size: 11px; margin-bottom: 4px; }
 .name { color: #117743; font-weight: bold; }
 .no { color: #0000ee; }
 .body { font-size: 12px; white-space: pre-wrap; }
 
 /* WIKI-STYLE IMAGES */
-.wiki-img { width: 150px; height: auto; border: 1px solid #aaa; margin: 4px; float: left; }
+.wiki-img { width: 150px; height: auto; border: 1px solid #aaa; margin: 4px; }
+.img-left { float: left; }
+.img-center { display: block; margin: 0 auto; }
+.img-right { float: right; }
 
 /* COMMENT SECTION */
-#comments { margin-top:10px; }
-#comments div { border:1px solid #aaa; padding:4px; margin:4px 0; }
+#comments { margin-top:12px; }
+#comments div { border:2px solid #aaa; padding:6px; margin:6px 0; background:#f6efe8; font-size:14px; }
+
+/* COMMENT BOX */
+#newComment { width:100%; height:80px; font-size:14px; }
+
+/* BUTTON */
+button { padding:6px 12px; font-size:14px; margin-top:4px; cursor:pointer; }
 
 /* FOOTER */
 .footer { text-align: center; font-size: 10px; color: #555; margin: 40px 0 20px; }
@@ -116,9 +119,9 @@ I can describe myself as very humorous! Somewhat jolly, and always at your side.
 You can ask me ALL the questions you want! But of course, let’s keep it fun and no bad stuff allowed. A sample question can be: “What topics do you like other than the topics you’ve given?”  
 
 <!-- Three images of Vito -->
-<img src="images/me1.jpg" class="wiki-img" alt="Me 1">
-<img src="images/me2.jpg" class="wiki-img" alt="Me 2">
-<img src="images/me3.jpg" class="wiki-img" alt="Me 3">
+<img src="images/me1.jpg" class="wiki-img img-left" alt="Me 1">
+<img src="images/me2.jpg" class="wiki-img img-center" alt="Me 2">
+<img src="images/me3.jpg" class="wiki-img img-right" alt="Me 3">
 
 <div style="clear:both;"></div>
 
@@ -126,22 +129,6 @@ Thats it, get out.
 (I’m joking, feel free to check out more in the website.)
       </div>
     </div>
-
-    <!-- BLANK REPLIES -->
-    <div class="reply">
-      <div class="post-head">
-        <span class="name">Anonymous</span> <span class="no">No.0000002</span>
-      </div>
-      <div class="body"></div>
-    </div>
-
-    <div class="reply">
-      <div class="post-head">
-        <span class="name">Anonymous</span> <span class="no">No.0000003</span>
-      </div>
-      <div class="body"></div>
-    </div>
-
   </div>
 
   <!-- COMMENT SECTION -->
@@ -152,7 +139,7 @@ Thats it, get out.
   <div id="comments"></div>
 
   <div class="footer">
-    static personal board · just me · no backend · enjoy the chaos
+    static personal board · just me · enjoy the chaos
   </div>
 
 </div>
@@ -164,7 +151,7 @@ Thats it, get out.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
 import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-// Your Firebase config
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBUxo-7rLsYMjjOSQDYczqwcrh_pyX7D1o",
   authDomain: "vito-board.firebaseapp.com",
@@ -187,15 +174,17 @@ onSnapshot(q, (snapshot) => {
   commentsDiv.innerHTML = "";
   snapshot.forEach((doc) => {
     const div = document.createElement('div');
-    div.style.border = '1px solid #aaa';
-    div.style.padding = '4px';
-    div.style.margin = '4px 0';
+    div.style.border = '2px solid #aaa';
+    div.style.padding = '6px';
+    div.style.margin = '6px 0';
+    div.style.fontSize = '14px';
+    div.style.backgroundColor = '#f6efe8';
     div.textContent = doc.data().text;
     commentsDiv.appendChild(div);
   });
 });
 
-// Add new comment
+// Post new comment
 window.addComment = async function() {
   const text = commentBox.value.trim();
   if(text === '') return;
