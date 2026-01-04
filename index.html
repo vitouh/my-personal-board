@@ -182,6 +182,13 @@ const commentsDiv = document.getElementById('comments');
 const commentBox = document.getElementById('newComment');
 const nameBox = document.getElementById('userName');
 
+// Generate or retrieve visitor ID
+let visitorID = localStorage.getItem('visitorID');
+if(!visitorID) {
+  visitorID = crypto.randomUUID();
+  localStorage.setItem('visitorID', visitorID);
+}
+
 // Load comments in real-time
 const q = query(collection(db, "comments"), orderBy("timestamp", "asc"));
 onSnapshot(q, (snapshot) => {
@@ -195,17 +202,18 @@ onSnapshot(q, (snapshot) => {
     div.style.fontSize = '14px';
     div.style.backgroundColor = '#f6efe8';
 
-    // Name + comment
     div.textContent = `${data.name || "Anonymous"}: ${data.text}`;
 
-    // Delete button
-    const delBtn = document.createElement('button');
-    delBtn.textContent = "Delete";
-    delBtn.className = "delete-btn";
-    delBtn.onclick = async () => {
-      await deleteDoc(doc(db, "comments", docSnap.id));
-    };
-    div.appendChild(delBtn);
+    // Only show delete if current visitor matches
+    if(data.userID === visitorID){
+      const delBtn = document.createElement('button');
+      delBtn.textContent = "Delete";
+      delBtn.className = "delete-btn";
+      delBtn.onclick = async () => {
+        await deleteDoc(doc(db, "comments", docSnap.id));
+      };
+      div.appendChild(delBtn);
+    }
 
     commentsDiv.appendChild(div);
   });
@@ -221,7 +229,8 @@ window.addComment = async function() {
   await addDoc(collection(db, "comments"), {
     text: text,
     name: name,
-    timestamp: serverTimestamp()
+    timestamp: serverTimestamp(),
+    userID: visitorID
   });
 
   commentBox.value = '';
