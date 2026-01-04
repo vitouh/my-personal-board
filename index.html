@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <title>/who’s vito?/</title>
 <style>
-/* ==========================
-   RETRO BOARD BASE
-   ========================== */
+/* ======= RETRO BOARD STYLE ======= */
 body {
   background: #f2e2d4;
   color: #000;
@@ -18,8 +16,6 @@ body {
 }
 a { color: #800000; text-decoration: none; }
 a:hover { text-decoration: underline; }
-
-/* faint scanline */
 body::after {
   content: "";
   position: fixed;
@@ -35,9 +31,7 @@ body::after {
   pointer-events: none;
 }
 
-/* ==========================
-   TOP BAR
-   ========================== */
+/* TOP NAV */
 .top-bar {
   background: #ffe;
   border-bottom: 2px solid #d6b7a7;
@@ -47,59 +41,15 @@ body::after {
 }
 .top-bar span { margin: 0 6px; cursor: pointer; }
 
-/* ==========================
-   WRAPPER
-   ========================== */
-.wrap {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 8px;
-}
+/* WRAPPER */
+.wrap { max-width: 860px; margin: 0 auto; padding: 8px; }
 
-/* ==========================
-   BOARD HEADER
-   ========================== */
-.board-header {
-  text-align: center;
-  margin: 18px 0 22px;
-}
-.board-header h1 {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 26px;
-  color: #800000;
-  margin: 0;
-}
-.board-header p {
-  font-size: 12px;
-  margin-top: 3px;
-}
+/* BOARD HEADER */
+.board-header { text-align: center; margin: 18px 0 22px; }
+.board-header h1 { font-family: "Times New Roman", Times, serif; font-size: 26px; color: #800000; margin: 0; }
+.board-header p { font-size: 12px; margin-top: 3px; }
 
-/* ==========================
-   POST FORM (LOCKED)
-   ========================== */
-.post-form {
-  background: #eeaa88;
-  border: 2px solid #d6b7a7;
-  margin-bottom: 18px;
-  padding: 5px;
-}
-.post-form table { width: 100%; font-size: 11px; }
-.post-form th {
-  background: #ea8;
-  padding: 3px;
-  width: 80px;
-  text-align: left;
-}
-.post-form td { background: #fff; padding: 3px; }
-.post-form input, .post-form textarea {
-  width: 97%;
-  font-size: 11px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* ==========================
-   THREADS
-   ========================== */
+/* THREADS */
 .thread { margin-bottom: 26px; }
 .op {
   background: #fff;
@@ -118,26 +68,15 @@ body::after {
 .no { color: #0000ee; }
 .body { font-size: 12px; white-space: pre-wrap; }
 
-/* ==========================
-   WIKI-STYLE IMAGES
-   ========================== */
-.wiki-img {
-  width: 150px;
-  height: auto;
-  border: 1px solid #aaa;
-  margin: 4px;
-  float: left; /* can alternate left/right */
-}
+/* WIKI-STYLE IMAGES */
+.wiki-img { width: 150px; height: auto; border: 1px solid #aaa; margin: 4px; float: left; }
 
-/* ==========================
-   FOOTER
-   ========================== */
-.footer {
-  text-align: center;
-  font-size: 10px;
-  color: #555;
-  margin: 40px 0 20px;
-}
+/* COMMENT SECTION */
+#comments { margin-top:10px; }
+#comments div { border:1px solid #aaa; padding:4px; margin:4px 0; }
+
+/* FOOTER */
+.footer { text-align: center; font-size: 10px; color: #555; margin: 40px 0 20px; }
 </style>
 </head>
 <body>
@@ -156,27 +95,7 @@ body::after {
     <p>my own personal board</p>
   </div>
 
-  <div class="post-form">
-    <table>
-      <tr>
-        <th>Name</th>
-        <td><input type="text" placeholder="Anonymous" disabled></td>
-      </tr>
-      <tr>
-        <th>Comment</th>
-        <td><textarea placeholder="posting is disabled" disabled></textarea></td>
-      </tr>
-      <tr>
-        <td colspan="2" style="text-align:center; background:#fff;">
-          <input type="button" value="Post" disabled>
-        </td>
-      </tr>
-    </table>
-  </div>
-
-  <!-- ==========================
-       OP POST
-       ========================== -->
+  <!-- OP POST -->
   <div class="thread">
     <div class="op">
       <div class="post-head">
@@ -196,40 +115,41 @@ I can describe myself as very humorous! Somewhat jolly, and always at your side.
 
 You can ask me ALL the questions you want! But of course, let’s keep it fun and no bad stuff allowed. A sample question can be: “What topics do you like other than the topics you’ve given?”  
 
-<!-- Images of Vito -->
+<!-- Three images of Vito -->
 <img src="images/me1.jpg" class="wiki-img" alt="Me 1">
 <img src="images/me2.jpg" class="wiki-img" alt="Me 2">
 <img src="images/me3.jpg" class="wiki-img" alt="Me 3">
 
 <div style="clear:both;"></div>
 
-thats it, get out.  
-(i'm joking, feel free to check out more in the website.)
+Thats it, get out.  
+(I’m joking, feel free to check out more in the website.)
       </div>
     </div>
 
-    <!-- ==========================
-         BLANK REPLIES
-         ========================== -->
+    <!-- BLANK REPLIES -->
     <div class="reply">
       <div class="post-head">
         <span class="name">Anonymous</span> <span class="no">No.0000002</span>
       </div>
-      <div class="body">
-<!-- Visitors can fill this -->
-      </div>
+      <div class="body"></div>
     </div>
 
     <div class="reply">
       <div class="post-head">
         <span class="name">Anonymous</span> <span class="no">No.0000003</span>
       </div>
-      <div class="body">
-<!-- Visitors can fill this -->
-      </div>
+      <div class="body"></div>
     </div>
 
   </div>
+
+  <!-- COMMENT SECTION -->
+  <h3>Comment Section</h3>
+  <textarea id="newComment" placeholder="Write a comment..."></textarea>
+  <br>
+  <button onclick="addComment()">Post Comment</button>
+  <div id="comments"></div>
 
   <div class="footer">
     static personal board · just me · no backend · enjoy the chaos
@@ -238,10 +158,54 @@ thats it, get out.
 </div>
 
 <!-- ==========================
-     EASTER EGGS COMMENTS
-     ========================== -->
-<!-- [Log in/Sign up] → so-well.html -->
-<!-- [What else?] → rick-roll.html -->
+     Firebase MODULAR SDK & Comments
+=========================== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+// Your Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBUxo-7rLsYMjjOSQDYczqwcrh_pyX7D1o",
+  authDomain: "vito-board.firebaseapp.com",
+  projectId: "vito-board",
+  storageBucket: "vito-board.firebasestorage.app",
+  messagingSenderId: "15417026348",
+  appId: "1:15417026348:web:0b5f8ed7b101af0c842e89"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const commentsDiv = document.getElementById('comments');
+const commentBox = document.getElementById('newComment');
+
+// Load comments in real-time
+const q = query(collection(db, "comments"), orderBy("timestamp", "asc"));
+onSnapshot(q, (snapshot) => {
+  commentsDiv.innerHTML = "";
+  snapshot.forEach((doc) => {
+    const div = document.createElement('div');
+    div.style.border = '1px solid #aaa';
+    div.style.padding = '4px';
+    div.style.margin = '4px 0';
+    div.textContent = doc.data().text;
+    commentsDiv.appendChild(div);
+  });
+});
+
+// Add new comment
+window.addComment = async function() {
+  const text = commentBox.value.trim();
+  if(text === '') return;
+  await addDoc(collection(db, "comments"), {
+    text: text,
+    timestamp: serverTimestamp()
+  });
+  commentBox.value = '';
+}
+</script>
 
 </body>
 </html>
