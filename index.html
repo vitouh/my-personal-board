@@ -29,6 +29,8 @@ body::after {
   );
   pointer-events: none;
 }
+
+/* TOP NAV */
 .top-bar {
   background: #ffe;
   border-bottom: 2px solid #d6b7a7;
@@ -37,12 +39,23 @@ body::after {
   font-size: 11px;
 }
 .top-bar span { margin: 0 6px; cursor: pointer; }
+
+/* WRAPPER */
 .wrap { max-width: 860px; margin: 0 auto; padding: 8px; }
+
+/* BOARD HEADER */
 .board-header { text-align: center; margin: 18px 0 22px; }
 .board-header h1 { font-family: "Times New Roman", Times, serif; font-size: 26px; color: #800000; margin: 0; }
 .board-header p { font-size: 12px; margin-top: 3px; }
+
+/* THREADS */
 .thread { margin-bottom: 26px; }
-.op { background: #fff; border: 2px solid #d6b7a7; padding: 6px; overflow: hidden; }
+.op {
+  background: #fff;
+  border: 2px solid #d6b7a7;
+  padding: 6px;
+  overflow: hidden;
+}
 .post-head { font-size: 11px; margin-bottom: 4px; }
 .name { color: #117743; font-weight: bold; }
 .no { color: #0000ee; }
@@ -63,9 +76,23 @@ body::after {
 /* COMMENT SECTION */
 #comments { margin-top:12px; }
 #comments div { border:2px solid #aaa; padding:6px; margin:6px 0; background:#f6efe8; font-size:14px; }
-#newComment { width:100%; height:80px; font-size:14px; }
+#newComment { width:100%; height:80px; font-size:14px; margin-bottom:4px; }
+#userName { width:200px; margin-bottom:4px; font-size:14px; }
 button { padding:6px 12px; font-size:14px; margin-top:4px; cursor:pointer; }
 .footer { text-align: center; font-size: 10px; color: #555; margin: 40px 0 20px; }
+
+/* Delete button style */
+.delete-btn {
+  margin-left: 8px;
+  font-size: 12px;
+  cursor: pointer;
+  background: #f2dcdc;
+  border: 1px solid #aa8888;
+  border-radius: 2px;
+}
+.delete-btn:hover {
+  background: #f7aaaa;
+}
 </style>
 </head>
 <body>
@@ -84,6 +111,7 @@ button { padding:6px 12px; font-size:14px; margin-top:4px; cursor:pointer; }
     <p>my own personal board</p>
   </div>
 
+  <!-- OP POST -->
   <div class="thread">
     <div class="op">
       <div class="post-head">
@@ -115,7 +143,10 @@ Thats it, get out.
     </div>
   </div>
 
+  <!-- COMMENT SECTION -->
   <h3>Comment Section</h3>
+  <input type="text" id="userName" placeholder="Your name">
+  <br>
   <textarea id="newComment" placeholder="Write a comment..."></textarea>
   <br>
   <button onclick="addComment()">Post Comment</button>
@@ -126,11 +157,14 @@ Thats it, get out.
   </div>
 </div>
 
-<!-- Firebase -->
+<!-- ==========================
+     Firebase MODULAR SDK & Comments
+=========================== -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBUxo-7rLsYMjjOSQDYczqwcrh_pyX7D1o",
   authDomain: "vito-board.firebaseapp.com",
@@ -140,32 +174,58 @@ const firebaseConfig = {
   appId: "1:15417026348:web:0b5f8ed7b101af0c842e89"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const commentsDiv = document.getElementById('comments');
 const commentBox = document.getElementById('newComment');
+const nameBox = document.getElementById('userName');
 
+// Load comments in real-time
 const q = query(collection(db, "comments"), orderBy("timestamp", "asc"));
 onSnapshot(q, (snapshot) => {
   commentsDiv.innerHTML = "";
-  snapshot.forEach((doc) => {
+  snapshot.forEach((docSnap) => {
+    const data = docSnap.data();
     const div = document.createElement('div');
     div.style.border = '2px solid #aaa';
     div.style.padding = '6px';
     div.style.margin = '6px 0';
     div.style.fontSize = '14px';
     div.style.backgroundColor = '#f6efe8';
-    div.textContent = doc.data().text;
+
+    // Name + comment
+    div.textContent = `${data.name || "Anonymous"}: ${data.text}`;
+
+    // Delete button
+    const delBtn = document.createElement('button');
+    delBtn.textContent = "Delete";
+    delBtn.className = "delete-btn";
+    delBtn.onclick = async () => {
+      await deleteDoc(doc(db, "comments", docSnap.id));
+    };
+    div.appendChild(delBtn);
+
     commentsDiv.appendChild(div);
   });
 });
 
+// Post new comment
 window.addComment = async function() {
   const text = commentBox.value.trim();
   if(!text) return;
-  await addDoc(collection(db, "comments"), { text, timestamp: serverTimestamp() });
+
+  const name = nameBox.value.trim() || "Anonymous";
+
+  await addDoc(collection(db, "comments"), {
+    text: text,
+    name: name,
+    timestamp: serverTimestamp()
+  });
+
   commentBox.value = '';
+  nameBox.value = '';
 }
 </script>
 
